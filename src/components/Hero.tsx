@@ -250,50 +250,131 @@ export function Hero() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
       </div>
 
-      {/* Content - Center Aligned Stack */}
+      {/* Content - Desktop: Left & Right Layout, Mobile: Stacked with Screen between Content and CTA */}
       <motion.div style={{ scale }} className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col items-center gap-6 md:gap-8 text-center max-w-3xl mx-auto">
-          {/* Badge */}
-          <motion.div initial={{ opacity: 0, y: 15, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.5, type: 'spring' }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm">
-            <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}>
-              <Sparkles className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary" />
-            </motion.div>
-            <span className="text-[10px] md:text-xs font-medium text-primary">{content?.badge || 'Creative Brand Growth Partner'}</span>
-          </motion.div>
+        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16">
+          {/* Left Column - Login Content (Desktop) / Top Content (Mobile) */}
+          <div className="flex-1 w-full">
+            {/* Content that appears above screen on mobile, left on desktop */}
+            <div className="text-center md:text-left">
+              {/* Badge */}
+              <motion.div 
+                initial={{ opacity: 0, y: 15, scale: 0.9 }} 
+                animate={{ opacity: 1, y: 0, scale: 1 }} 
+                transition={{ duration: 0.5, type: 'spring' }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm mx-auto md:mx-0"
+              >
+                <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}>
+                  <Sparkles className="w-3 h-3 md:w-3.5 md:h-3.5 text-primary" />
+                </motion.div>
+                <span className="text-[10px] md:text-xs font-medium text-primary">{content?.badge || 'Creative Brand Growth Partner'}</span>
+              </motion.div>
 
-          {/* Heading */}
-          <div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-2">
-              {title}{' '}
-              <span className="text-gradient">{subtitle}</span>
-            </h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
-              className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-md mx-auto">
-              {description}
-            </motion.p>
+              {/* Heading */}
+              <div className="mt-4 md:mt-6">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-2">
+                  {title}{' '}
+                  <span className="text-gradient">{subtitle}</span>
+                </h1>
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }} 
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="text-sm md:text-base lg:text-lg text-muted-foreground max-w-md mx-auto md:mx-0"
+                >
+                  {description}
+                </motion.p>
+              </div>
+            </div>
           </div>
 
-          {/* Design Screen */}
-          <div className="w-full flex justify-center">
+          {/* Right Column - Design Screen (Desktop) */}
+          <div className="flex-1 hidden md:flex justify-end">
             <DesignScreen />
           </div>
+        </div>
 
-          {/* CTA Buttons */}
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.5 }}
-            className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-            <motion.a href="#work" className="btn-primary group relative overflow-hidden text-sm w-full sm:w-auto justify-center" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <span className="relative z-10 flex items-center">{content?.cta_primary || 'View My Work →'}</span>
+        {/* Mobile: Screen Animation (between content and CTA) */}
+        <div className="md:hidden w-full flex justify-center my-6">
+          <DesignScreen />
+        </div>
+
+        {/* Mobile: CTA Buttons and Tagline - with reduced padding and centered tagline */}
+        <div className="flex flex-col items-center md:hidden w-full">
+          {/* CTA Buttons - Reduced padding on mobile */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto"
+          >
+            <motion.a 
+              href="#work" 
+              className="btn-primary group relative overflow-hidden text-sm w-full sm:w-auto justify-center px-4 py-2 sm:px-6 sm:py-3" 
+              whileHover={{ scale: 1.02 }} 
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="relative z-10 flex items-center justify-center">{content?.cta_primary || 'View My Work →'}</span>
             </motion.a>
-            <motion.a href="#contact"
-              className="btn-secondary group text-sm w-full sm:w-auto justify-center" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <span className="flex items-center">{content?.cta_secondary || 'Let\'s Grow Your Brand'}<ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" /></span>
+            <motion.a 
+              href="#contact"
+              className="btn-secondary group text-sm w-full sm:w-auto justify-center px-4 py-2 sm:px-6 sm:py-3" 
+              whileHover={{ scale: 1.02 }} 
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="flex items-center justify-center">
+                {content?.cta_secondary || 'Let\'s Grow Your Brand'}
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </span>
             </motion.a>
           </motion.div>
           
-          {/* Tagline */}
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
-            className="text-xs md:text-sm text-muted-foreground">
+          {/* Tagline - Properly centered on mobile */}
+          <motion.p 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            transition={{ delay: 0.7 }}
+            className="text-xs text-muted-foreground mt-4 text-center w-full"
+          >
+            {content?.tagline || 'Helping brands stand out, connect emotionally, and scale faster'}
+          </motion.p>
+        </div>
+
+        {/* Desktop: CTA Buttons and Tagline (in left column) */}
+        <div className="hidden md:block flex-1 mt-6 md:mt-8 text-center md:text-left">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto justify-center md:justify-start"
+          >
+            <motion.a 
+              href="#work" 
+              className="btn-primary group relative overflow-hidden text-sm w-full sm:w-auto justify-center" 
+              whileHover={{ scale: 1.02 }} 
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="relative z-10 flex items-center">{content?.cta_primary || 'View My Work →'}</span>
+            </motion.a>
+            <motion.a 
+              href="#contact"
+              className="btn-secondary group text-sm w-full sm:w-auto justify-center" 
+              whileHover={{ scale: 1.02 }} 
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="flex items-center">
+                {content?.cta_secondary || 'Let\'s Grow Your Brand'}
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </span>
+            </motion.a>
+          </motion.div>
+          
+          <motion.p 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            transition={{ delay: 0.7 }}
+            className="text-xs md:text-sm text-muted-foreground mt-4"
+          >
             {content?.tagline || 'Helping brands stand out, connect emotionally, and scale faster'}
           </motion.p>
         </div>
